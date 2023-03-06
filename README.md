@@ -2,5 +2,5 @@
 
 ## Getting started
 
-Clone this repo and run the bash-setup.sh script to add the required loading args to the bashrc.
+Clone this repo in your home directory and run the bash-setup.sh script to add the required loading args to the bashrc.
 
