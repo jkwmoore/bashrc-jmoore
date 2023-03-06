@@ -1,8 +1,10 @@
 #!/bin/bash
 
 # Clone the repository to the user's home directory first.
-cd ~/bashrc-jmoore && git pull > /dev/null 2>&1 && echo -e "Custom bashrc updated from Github." || echo -e "Custom bashrc git update failed."
-
+cd ~/bashrc-jmoore && git pull > /dev/null 2>&1 && 
+echo -e "##################################\nCustom bashrc updated from Github.\n##################################" || 
+echo -e "################################\nCustom bashrc git update failed.\n################################"
+           
 if [ $? -eq 0 ]; then
 
   # Check if the lines are already in the .bashrc file
