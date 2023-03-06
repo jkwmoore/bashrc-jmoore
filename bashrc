@@ -1,5 +1,5 @@
 #!/bin/bash
-function checksum() {
+checksum() {
   for file in "$@"
   do
     if [ -f "$file" ]; then
@@ -146,7 +146,7 @@ sysinfo() {
   ps aux --sort=-%mem | head -6
 }
 
-function docker-container-ip() {
+docker-container-ip() {
     if [[ -n "$1" ]]; then
         local CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$1")
         echo "IP Address for container $1: $CONTAINER_IP"
@@ -170,7 +170,7 @@ function docker-container-ip() {
     fi
 }
 
-function docker-container-logs() {
+docker-container-logs() {
     local container_name=$1
     if [ -z "$container_name" ]; then
         local running_containers=$(docker ps --format "{{.Names}}")
