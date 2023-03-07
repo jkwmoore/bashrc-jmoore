@@ -24,7 +24,7 @@ if [ $? -eq 0 ]; then
   then
     # If not, add them to the .bashrc file
     echo -e "\n# Before enabling, check if git pull + SSH agent forwarding causes high CPU." >> ~/.bashrc
-    echo -e "# Load custom bashrc setup script\n#~/bashrc-jmoore/bash-setup.sh" >> ~/.bashrc
+    echo -e "# Load custom bashrc setup script\n#if [[ \$- == *i* ]]; then\n#    ~/bashrc-jmoore/bash-setup.sh \n#fi" >> ~/.bashrc
   fi
 
 else
