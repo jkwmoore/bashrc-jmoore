@@ -20,7 +20,7 @@ if [ $? -eq 0 ]; then
     echo -e "\n# Load custom bash aliases\n. ~/bashrc-jmoore/bash_aliases" >> ~/.bashrc
   fi
 
-  if ! grep -Fxq "#    ~/bashrc-jmoore/bash-setup.sh" ~/.bashrc
+  if ! grep -Fxq "~/bashrc-jmoore/bash-setup.sh" ~/.bashrc
   then
     # If not, add them to the .bashrc file
     echo -e "\n# Before enabling, check if git pull + SSH agent forwarding causes high CPU." >> ~/.bashrc
