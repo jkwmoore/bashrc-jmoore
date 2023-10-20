@@ -36,3 +36,5 @@ alias ga='g add'
 alias gc='git commit -m'
 alias gl='git log'
 alias vscodeusers='ps -eo user:20,pid,pcpu,cmd:256 | grep vscode | grep -v grep | tr -s " " | cut -d " " -f1,2,3 | less'
+# Feed it emails with heredoc formatting
+alias extract_emails="grep -Eioh '([[:alnum:]_.-]+@[[:alnum:]_.-]+?\.[[:alpha:].]{2,6})'"
