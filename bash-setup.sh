@@ -2,7 +2,7 @@
 # Execute only if parent shell is interactive.
 if [[ -n "$PS1" ]]; then
   # Clone the repository to the user's home directory first.
-  pushd $(pwd)
+  pushd -q $(pwd) > /dev/null
   cd ~/bashrc-jmoore && git pull > /dev/null 2>&1 && 
   echo -e "##################################\nCustom bashrc updated from Github.\n##################################" || 
   echo -e "################################\nCustom bashrc git update failed.\n################################"
@@ -32,7 +32,7 @@ if [[ -n "$PS1" ]]; then
     echo "Error: Git clone failed, setup or update aborted."
   fi
   # Go back home.
-  popd
+  popd -q > /dev/null
 fi
 
 
