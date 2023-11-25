@@ -165,7 +165,7 @@ docker-container-ip() {
             echo "There are no running containers."
             return 1
         fi
-        echo "Please select a container to view logs for:"
+        echo "Please select a container to view IP address for:"
         select container_name in $running_containers; do
             if [ -z "$container_name" ]; then
                 echo "Invalid selection. Please try again."
