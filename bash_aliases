@@ -19,6 +19,7 @@ alias ssh-key-check='for file in /etc/ssh/*sa_key.pub; do ssh-keygen -lf "$file"
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
+alias h='cd ~'
 alias ..='cd ..'
 alias .2='cd ../../'
 alias .3='cd ../../../'
