@@ -130,7 +130,11 @@ dnslookup() {
 }
 
 ptrlookup() {
-  dig -x "$1"
+  if [ "$1" = "local" ]; then
+    dig -x "$(curl -s https://ipinfo.io/ip)"
+  else
+    dig -x "$1"
+  fi
 }
 
 watchlog() {
