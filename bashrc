@@ -155,23 +155,23 @@ sysinfo() {
 }
 
 docker-container-ip() {
+    local container_name=$1
     if [[ -n "$1" ]]; then
-        local CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$1")
-        echo "IP Address for container $1: $CONTAINER_IP"
+        local container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$1")
+        echo "IP Address for container $1: $container_ip"
     else
-        local RUNNING_CONTAINERS=$(docker ps -q)
-        local CONTAINER_ARRAY=($RUNNING_CONTAINERS)
-        if [[ ${#CONTAINER_ARRAY[@]} -eq 0 ]]; then
-            echo "No running containers found."
-            return
+        local running_containers=$(docker ps --format "{{.Names}}")
+        if [ -z "$running_containers" ]; then
+            echo "There are no running containers."
+            return 1
         fi
-        echo "Select a container to get IP Address:"
-        select CONTAINER_NAME in $(docker ps --format '{{.Names}}' | sort); do
-            if [[ -z "$CONTAINER_NAME" ]]; then
-                echo "Invalid selection. Try again."
+        echo "Please select a container to view logs for:"
+        select container_name in $running_containers; do
+            if [ -z "$container_name" ]; then
+                echo "Invalid selection. Please try again."
             else
-                local CONTAINER_IP=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$CONTAINER_NAME")
-                echo "IP Address for container $CONTAINER_NAME: $CONTAINER_IP"
+                local container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$container_name")
+                echo "IP Address for container $1: $container_ip"
                 break
             fi
         done
