@@ -1,6 +1,6 @@
 #!/bin/bash
-
-if [[ $- == *i* ]]; then
+# Execute only if parent shell is interactive.
+if [[ -n "$PS1" ]]; then
   # Clone the repository to the user's home directory first.
   cd ~/bashrc-jmoore && git pull > /dev/null 2>&1 && 
   echo -e "##################################\nCustom bashrc updated from Github.\n##################################" || 
