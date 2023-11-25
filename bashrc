@@ -231,10 +231,6 @@ docker-cleanup() {
   docker volume prune -f
 }
 
-docker-container-ip() {
-  docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$1"
-}
-
 docker-images() {
   docker images --format "{{.Repository}}:{{.Tag}} {{.Size}}"
 }
