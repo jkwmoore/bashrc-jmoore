@@ -21,11 +21,11 @@ if [[ -n "$PS1" ]]; then
       echo -e "\n# Load custom bash aliases\n. ~/bashrc-jmoore/bash_aliases" >> ~/.bashrc
     fi
 
-    if ! grep -Fq "~/bashrc-jmoore/bash-setup.sh" ~/.bashrc
+    if ! grep -Fq ". ~/bashrc-jmoore/bash-setup.sh" ~/.bashrc
     then
       # If not, add them to the .bashrc file
       echo -e "\n# Before enabling, check if git pull + SSH agent forwarding causes high CPU." >> ~/.bashrc
-      echo -e "# Load custom bashrc setup script\n#if [[ \$- == *i* ]]; then\n#    ~/bashrc-jmoore/bash-setup.sh \n#fi" >> ~/.bashrc
+      echo -e "# Load custom bashrc setup script\n#if [[ \$- == *i* ]]; then\n#    . ~/bashrc-jmoore/bash-setup.sh \n#fi" >> ~/.bashrc
     fi
 
   else
