@@ -27,10 +27,11 @@ if [[ -n "$PS1" ]]; then
       echo -e "\n# Before enabling, check if git pull + SSH agent forwarding causes high CPU." >> ~/.bashrc
       echo -e "# Load custom bashrc setup script\n#if [[ \$- == *i* ]]; then\n#    . ~/bashrc-jmoore/bash-setup.sh \n#fi" >> ~/.bashrc
     fi
-
   else
     echo "Error: Git clone failed, setup or update aborted."
-  fi 
+  fi
+  # Go back home.
+  cd ~/
 fi
 
 
