@@ -129,6 +129,10 @@ dnslookup() {
   dig +short "$1"
 }
 
+ptrlookup() {
+  dig -x "$1"
+}
+
 watchlog() {
   tail -f "$1" | grep --color=always "$2"
 }
