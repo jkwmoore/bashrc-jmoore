@@ -236,5 +236,11 @@ dli() {
 }
 
 dpa() {
-  docker-compose -f "$1" pull
+  if command -v docker-compose &> /dev/null; then
+    docker-compose pull
+  elif command -v docker &> /dev/null; then
+    docker compose pull
+  else
+    echo "Error: Neither 'docker-compose' nor 'docker compose' is available. Please install either Docker Compose or Docker with Compose CLI."
+  fi
 }
