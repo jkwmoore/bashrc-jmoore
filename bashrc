@@ -154,7 +154,7 @@ sysinfo() {
   ps aux --sort=-%mem | head -6
 }
 
-docker-container-ip() {
+dci() {
     local container_name=$1
     if [[ -n "$1" ]]; then
         local container_ip=$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' "$1")
@@ -178,7 +178,7 @@ docker-container-ip() {
     fi
 }
 
-docker-container-logs() {
+dcl() {
     local container_name=$1
     if [ -z "$container_name" ]; then
         local running_containers=$(docker ps --format "{{.Names}}")
@@ -204,7 +204,7 @@ docker-container-logs() {
     docker logs -f --tail 20 "$container_name"
 }
 
-docker-container-bash() {
+dcb() {
   local container_name=$1
   local containers=($(docker ps --format '{{.Names}}'))
 
@@ -226,15 +226,15 @@ docker-container-bash() {
   fi
 }
 
-docker-cleanup() {
+dcln() {
   docker system prune -f
   docker volume prune -f
 }
 
-docker-images() {
+dli() {
   docker images --format "{{.Repository}}:{{.Tag}} {{.Size}}"
 }
 
-docker-pull-all() {
+dpa() {
   docker-compose -f "$1" pull
 }
