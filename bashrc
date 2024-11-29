@@ -18,6 +18,12 @@ ssh-key-rhost-scan() {
     ssh-keygen -lf <(ssh-keyscan "$1" 2>/dev/null)
 }
 
+ssh-key-lhost-scan() {
+    for key in /etc/ssh/ssh_host_*_key.pub; do
+        ssh-keygen -lf "$key"
+    done
+}
+
 ssl-cert-summary() {
     if [[ $# -eq 0 ]]; then
         echo "Usage: ssl-cert-summary <cert_file> [<cert_file2> ...]"
