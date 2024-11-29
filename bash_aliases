@@ -15,7 +15,6 @@ alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
 alias tree="find . -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
-alias ssh-key-check='for file in /etc/ssh/*sa_key.pub; do ssh-keygen -lf "$file"; done'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -44,3 +43,4 @@ alias extract_emails="grep -Eioh '([[:alnum:]_.-]+@[[:alnum:]_.-]+?\.[[:alpha:].
 alias mp='module purge'
 alias mav='module avail'
 alias squeuel='squeue --format="%.18i %.18P %.45j %.8T %.10M %.9l %.6D %R" --me'
+alias ssh-nopubkey='ssh -o PubkeyAuthentication=no'
