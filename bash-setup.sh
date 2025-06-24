@@ -1,11 +1,15 @@
-#!/bin/bash
+ #!/bin/bash
 # Execute only if parent shell is interactive.
 if [[ -n "$PS1" ]]; then
   # Clone the repository to the user's home directory first.
   pushd $(pwd) > /dev/null
-  cd ~/bashrc-jmoore && git pull > /dev/null 2>&1 && 
-  echo -e "##################################\nCustom bashrc updated from Github.\n##################################" || 
-  echo -e "################################\nCustom bashrc git update failed.\n################################"
+  if ping -c 1 github.com &> /dev/null; then
+    cd ~/bashrc-jmoore && git pull > /dev/null 2>&1 && \
+    echo -e "##################################\nCustom bashrc updated from Github.\n##################################" || \
+    echo -e "################################\nCustom bashrc git update failed.\n################################"
+  else
+    echo -e "##################################\nGitHub is not reachable. Skipping update.\n##################################"
+  fi
             
   if [ $? -eq 0 ]; then
 
@@ -34,5 +38,3 @@ if [[ -n "$PS1" ]]; then
   # Go back home.
   popd > /dev/null
 fi
-
-
