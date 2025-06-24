@@ -1,4 +1,6 @@
 #!/bin/bash
+
+############################################ General stuff ############################################
 checksum() {
   for file in "$@"
   do
@@ -160,6 +162,8 @@ sysinfo() {
   ps aux --sort=-%mem | head -6
 }
 
+############################################ Docker stuff ############################################
+
 dci() {
     local container_name=$1
     if [[ -n "$1" ]]; then
@@ -250,3 +254,16 @@ dpa() {
     echo "Error: Neither 'docker-compose' nor 'docker compose' is available. Please install either Docker Compose or Docker with Compose CLI."
   fi
 }
+
+############################################ HPC stuff ############################################
+
+# If we have a modules system available load cmsh and slurm if present
+if type -t module > /dev/null; then
+  if module avail cmsh > /dev/null; then
+    module load cmsh
+  fi
+
+  if module avail slurm > /dev/null; then
+    module load slurm
+  fi
+fi
