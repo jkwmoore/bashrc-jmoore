@@ -40,6 +40,7 @@ alias vscodeusers='ps -eo user:20,pid,pcpu,cmd:256 | grep vscode | grep -v grep 
 # Feed it emails with heredoc formatting
 alias extract_emails="grep -Eioh '([[:alnum:]_.-]+@[[:alnum:]_.-]+?\.[[:alpha:].]{2,6})'"
 # HPC related Aliases
+alias ml='module'
 alias mp='module purge'
 alias mav='module avail'
 alias squeuel='squeue --format="%.18i %.18P %.45j %.8T %.10M %.9l %.6D %R" --me'
