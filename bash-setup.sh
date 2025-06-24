@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 # Execute only if parent shell is interactive.
 if [[ -n "$PS1" ]]; then
   # Clone the repository to the user's home directory first.
