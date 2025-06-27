@@ -258,12 +258,12 @@ dpa() {
 ############################################ HPC stuff ############################################
 
 # If we have a modules system available load cmsh and slurm if present
-if type -t module > /dev/null; then
-  if module avail cmsh > /dev/null; then
+if type -t module > /dev/null 2>&1; then
+  if module avail cmsh > /dev/null 2>&1; then
     module load cmsh
   fi
 
-  if module avail slurm > /dev/null; then
+  if module avail slurm > /dev/null 2>&1; then
     module load slurm
   fi
 fi
