@@ -150,7 +150,7 @@ watchlog() {
 }
 
 sysinfo() {
-  echo "OS version: $(lsb_release -d | awk '{print $2,$3,$4}')"
+  echo "OS version: $(. /etc/os-release && echo "$NAME $VERSION")"
   echo "Kernel version: $(uname -r)"
   echo "CPU usage: $(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')%"
   echo "Memory usage: $(free -m | awk 'NR==2{printf "%.2f%%", $3/$2*100}')"
