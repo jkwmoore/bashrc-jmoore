@@ -258,12 +258,31 @@ dpa() {
 ############################################ HPC stuff ############################################
 
 # If we have a modules system available load cmsh and slurm if present
-if type -t module > /dev/null 2>&1; then
-  if module avail cmsh > /dev/null 2>&1; then
-    module load cmsh
-  fi
+MODULES_TO_LOAD=(cmsh slurm)
 
-  if module avail slurm > /dev/null 2>&1; then
-    module load slurm
+if type -t module > /dev/null 2>&1; then
+  module_impl=$(type module)
+
+  if echo "$module_impl" | grep -q '\$LMOD_CMD'; then
+    echo "Detected module system: Lmod"
+    for mod in "${MODULES_TO_LOAD[@]}"; do
+      if module spider "$mod" > /dev/null 2>&1; then
+        echo "Loading module: $mod"
+        module --ignore_cache load "$mod"
+      fi
+    done
+
+  elif echo "$module_impl" | grep -q '_module_raw'; then
+    echo "Detected module system: Environment Modules (TCL)"
+    for mod in "${MODULES_TO_LOAD[@]}"; do
+      if module avail "$mod" 2>&1 | grep -q "^$mod"; then
+        echo "Loading module: $mod"
+        module load "$mod"
+      fi
+    done
+  else
+    echo "Unknown module system: custom shell function"
   fi
+else
+  echo "No module system detected"
 fi
