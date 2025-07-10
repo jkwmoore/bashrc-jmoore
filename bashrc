@@ -274,6 +274,7 @@ if type -t module > /dev/null 2>&1; then
 
   elif echo "$module_impl" | grep -q '_module_raw'; then
     echo "Detected module system: Environment Modules (TCL)"
+    alias ml='module'
     for mod in "${MODULES_TO_LOAD[@]}"; do
       if module avail "$mod" 2>&1 | grep -q "^$mod"; then
         echo "Loading module: $mod"
