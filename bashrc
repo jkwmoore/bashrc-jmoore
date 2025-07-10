@@ -150,16 +150,54 @@ watchlog() {
 }
 
 sysinfo() {
-  echo "OS version: $(. /etc/os-release && echo "$NAME $VERSION")"
-  echo "Kernel version: $(uname -r)"
-  echo "CPU usage: $(top -bn1 | grep "Cpu(s)" | awk '{print $2 + $4}')%"
-  echo "Memory usage: $(free -m | awk 'NR==2{printf "%.2f%%", $3/$2*100}')"
+  # ANSI color codes
+  BOLD="\033[1m"
+  RESET="\033[0m"
+  CYAN="\033[1;36m"
+  GREEN="\033[0;32m"
+  WHITE="\033[1;37m"
+  YELLOW="\033[0;33m"
+  RED="\033[0;31m"
+
+  echo -e "${CYAN}=== System Information ===${RESET}"
+  echo -e "${WHITE}OS version     :${RESET} ${GREEN}$(source /etc/os-release && echo "$NAME $VERSION")${RESET}"
+  echo -e "${WHITE}Kernel version :${RESET} ${GREEN}$(uname -r)${RESET}"
   echo ""
-  echo "Top 5 processes by CPU usage:"
-  ps aux --sort=-%cpu | head -6
+
+  echo -e "${CYAN}=== CPU Usage ===${RESET}"
+  cpu_line=$(top -bn1 | grep "%Cpu(s)" | head -1)
+  user=$(echo "$cpu_line" | awk -F',' '{print $1}' | awk '{print $2}')
+  system=$(echo "$cpu_line" | awk -F',' '{print $2}' | awk '{print $1}')
+  nice=$(echo "$cpu_line" | awk -F',' '{print $1}' | awk '{print $4}')
+  idle=$(echo "$cpu_line" | awk -F',' '{print $4}' | awk '{print $1}')
+  iowait=$(echo "$cpu_line" | awk -F',' '{print $5}' | awk '{print $1}')
+  total_used=$(awk "BEGIN {print 100 - $idle}")
+  echo -e "${WHITE}User     :${RESET} ${GREEN}${user}%${RESET}"
+  echo -e "${WHITE}System   :${RESET} ${GREEN}${system}%${RESET}"
+  echo -e "${WHITE}Nice     :${RESET} ${GREEN}${nice}%${RESET}"
+  echo -e "${WHITE}I/O Wait :${RESET} ${GREEN}${iowait}%${RESET}"
+  echo -e "${WHITE}Idle     :${RESET} ${GREEN}${idle}%${RESET}"
+  echo -e "${WHITE}Total Used:${RESET} ${YELLOW}${total_used}%${RESET}"
   echo ""
-  echo "Top 5 processes by memory usage:"
-  ps aux --sort=-%mem | head -6
+
+  echo -e "${CYAN}=== Memory Usage (MB) ===${RESET}"
+  read -r _ total used free shared buff_cache available < <(free -m | awk 'NR==2')
+  echo -e "${WHITE}Total      :${RESET} ${GREEN}${total} MB${RESET}"
+  echo -e "${WHITE}Used       :${RESET} ${GREEN}${used} MB${RESET}"
+  echo -e "${WHITE}Free       :${RESET} ${GREEN}${free} MB${RESET}"
+  echo -e "${WHITE}Shared     :${RESET} ${GREEN}${shared} MB${RESET}"
+  echo -e "${WHITE}Buff/Cache :${RESET} ${GREEN}${buff_cache} MB${RESET}"
+  echo -e "${WHITE}Available  :${RESET} ${GREEN}${available} MB${RESET}"
+  usage_pct=$(awk "BEGIN {printf \"%.2f\", $used / $total * 100}")
+  echo -e "${WHITE}Usage      :${RESET} ${YELLOW}${usage_pct}%${RESET}"
+  echo ""
+
+  echo -e "${CYAN}=== Top 5 Processes by CPU Usage ===${RESET}"
+  ps aux --sort=-%cpu | head -n 6
+  echo ""
+
+  echo -e "${CYAN}=== Top 5 Processes by Memory Usage ===${RESET}"
+  ps aux --sort=-%mem | head -n 6
 }
 
 ############################################ Docker stuff ############################################
