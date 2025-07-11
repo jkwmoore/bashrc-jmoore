@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Exit early if not running an interactive shell
+if [[ ! -n "$PS1" ]]; then
+  return 0 2>/dev/null || exit 0
+fi
+
 ############################################ General stuff ############################################
 checksum() {
   for file in "$@"
