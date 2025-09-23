@@ -306,7 +306,7 @@ dpa() {
 ############################################ HPC stuff ############################################
 
 # If we have a modules system available load cmsh and slurm if present
-MODULES_TO_LOAD=(cmsh slurm)
+MODULES_TO_LOAD=(bright cmsh slurm)
 
 if type -t module > /dev/null 2>&1; then
   module_impl=$(type module)
