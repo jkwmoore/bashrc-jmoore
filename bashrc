@@ -303,6 +303,68 @@ dpa() {
   fi
 }
 
+lsof_deleted() {
+  # Collect, sort by size, and print human-readable table of deleted-but-open files
+  lsof -nP +L1 | awk '
+    NR==1 { next }  # skip lsof header
+
+    {
+      # Reconstruct path (fields 9..NF may contain spaces)
+      path=$9
+      for (i=10;i<=NF;i++) path=path" "$i
+
+      size=$7 + 0
+
+      cmd[NR]=$1
+      pid[NR]=$2
+      user[NR]=$3
+      fd[NR]=$4
+      type[NR]=$5
+      sz[NR]=size
+      name[NR]=path
+    }
+
+    END {
+      # simple size-descending sort (selection sort; fine for typical lsof sizes)
+      for (i=2;i<NR;i++) {
+        max=i
+        for (j=i+1;j<=NR;j++) {
+          if (sz[j] > sz[max]) max=j
+        }
+        # swap rows
+        for (k in sz) {
+          tmp=cmd[i];  cmd[i]=cmd[max];  cmd[max]=tmp
+          tmp=pid[i];  pid[i]=pid[max];  pid[max]=tmp
+          tmp=user[i]; user[i]=user[max]; user[max]=tmp
+          tmp=fd[i];   fd[i]=fd[max];   fd[max]=tmp
+          tmp=type[i]; type[i]=type[max]; type[max]=tmp
+          tmp=sz[i];   sz[i]=sz[max];   sz[max]=tmp
+          tmp=name[i]; name[i]=name[max]; name[max]=tmp
+          break
+        }
+      }
+
+      # header
+      printf "%-20s %-7s %-10s %-4s %-6s %-10s %s\n",
+             "COMMAND","PID","USER","FD","TYPE","SIZE","PATH"
+
+      # print rows with human-readable sizes
+      for (i=2;i<=NR;i++) {
+        h = human(sz[i])
+        printf "%-20s %-7s %-10s %-4s %-6s %-10s %s\n",
+               cmd[i],pid[i],user[i],fd[i],type[i],h,name[i]
+      }
+    }
+
+    # human-readable IEC formatter
+    function human(x,   u,i) {
+      split("B KiB MiB GiB TiB PiB", u)
+      for (i=1; x>=1024 && i<6; i++) x/=1024
+      return sprintf("%.1f%s", x, u[i])
+    }
+  '
+}
+
 ############################################ HPC stuff ############################################
 
 # If we have a modules system available load cmsh and slurm if present
